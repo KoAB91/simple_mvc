@@ -33,7 +33,7 @@ public class BookService {
         return bookRepo.removeItemByParameter(book);
     }
 
-    public List<Book> filterBooks(int parameter){
-        return bookRepo.filter(parameter);
+    public List<Book> filterBooks(int parameter, String value){
+        return bookRepo.filter(parameter, value);
     }
 }

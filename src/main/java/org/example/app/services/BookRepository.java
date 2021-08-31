@@ -51,47 +51,36 @@ public class BookRepository implements ProjectRepository<Book> {
         return bookDeleted;
     }
 
-    public List<Book> filter(int parameter){
-        List sotredBooks = new ArrayList<Book>(repo);
+    public List<Book> filter(int parameter, String value){
+        List filteredBooks = new ArrayList<Book>();
         switch (parameter){
-            case 1: {
-                Collections.sort(sotredBooks, new AuthorComparator());
-                break;
-            }
             case 2: {
-                Collections.sort(sotredBooks, new TitleComparator());
+                for(Book book : repo){
+                    if(book.getTitle().equals(value)) {
+                        filteredBooks.add(book);
+                    }
+                }
                 break;
             }
             case 3: {
-                Collections.sort(sotredBooks, new SizeComparator());
+                int size = Integer.valueOf(value);
+                for(Book book : repo) {
+                    if (book.getSize()==size) {
+                        filteredBooks.add(book);
+                    }
+                }
                 break;
             }
-            default: Collections.sort(sotredBooks, new AuthorComparator());
+            case 1:
+            default: {
+                for(Book book : repo){
+                    if(book.getAuthor().equals(value)) {
+                        filteredBooks.add(book);
+                    }
+                }
+            }
         }
-        return sotredBooks;
-    }
-
-    public class AuthorComparator implements Comparator<Book>
-    {
-        public int compare(Book o1, Book o2)
-        {
-            return o1.getAuthor().compareTo(o2.getAuthor());
-        }
-    }
-
-    public class TitleComparator implements Comparator<Book>
-    {
-        public int compare(Book o1, Book o2)
-        {
-            return o1.getTitle().compareTo(o2.getTitle());
-        }
-    }
-
-    public class SizeComparator implements Comparator<Book>
-    {
-        public int compare(Book o1, Book o2)
-        {
-            return o1.getSize().compareTo(o2.getSize());
-        }
+        logger.info("filtered books - " + filteredBooks);
+        return filteredBooks;
     }
 }

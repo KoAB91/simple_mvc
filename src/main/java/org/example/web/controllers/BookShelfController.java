@@ -51,10 +51,10 @@ public class BookShelfController {
     }
 
     @GetMapping("/filter")
-    public String filterBooks(@RequestParam("parameter") int parameter, Model model){
-        logger.info("filter books by param: " + parameter);
+    public String filterBooks(@RequestParam("parameter") int parameter, @RequestParam("value") String value, Model model){
+        logger.info(String.format("filter books by param: %s, %s", parameter, value));
         model.addAttribute("book", new Book());
-        model.addAttribute("bookList", bookService.filterBooks(parameter));
+        model.addAttribute("bookList", bookService.filterBooks(parameter, value));
         return "book_shelf";
     }
 }
