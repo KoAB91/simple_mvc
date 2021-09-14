@@ -23,8 +23,10 @@
             <img class="login_item" th:src="@{/images/book_icon.jpg}">
             <h3>Authorization</h3>
             <input class="login_item" type="text" placeholder="enter username" th:field="*{username}">
+            <p class="error" th:if="${#fields.hasErrors('username')}">field value cannot be empty</p>
             <br>
             <input class="login_item" type="password" placeholder="password" th:field="*{password}">
+            <p class="error" th:if="${#fields.hasErrors('password')}">field value cannot be empty</p>
             <br>
             <input class="login_item" type="submit" value="login">
             <div class="error" th:if="${authErrorMessage}" th:utext="${authErrorMessage}"/>

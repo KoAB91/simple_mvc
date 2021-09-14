@@ -37,52 +37,93 @@
                 <tr>
                     <td>
                         <input type="text" placeholder="author" th:field="*{author}">
+                        <p class="error" th:if="${#fields.hasErrors('author')}">field value cannot be empty</p>
                     </td>
                     <td>
                         <input type="text" placeholder="book_title" th:field="*{title}">
+                        <p class="error" th:if="${#fields.hasErrors('title')}">field value cannot be empty</p>
                     </td>
                     <td>
                         <input type="text" placeholder="size (pages)" th:field="*{size}">
+                        <p class="error" th:if="${#fields.hasErrors('size')}">field value must be digit and less than 4 signs</p>
                     </td>
                     <td>
                         <input type="submit" value="save">
                     </td>
                 </tr>
             </table>
-            <div class="error" th:if="${saveErrorMessage}" th:utext="${saveErrorMessage}"/>
         </form>
 
-        <form method="post" th:action="@{/books/remove}" th:object="${book}">
+        <form method="post" th:action="@{/books/remove}" th:object="${bookIdToRemove}">
             <table>
                 <tr>
                     <td>
-                        <input type="text" placeholder="id" th:field="*{id}"/>
-                    </td>
-                    <td>
-                        <input type="text" placeholder="author" th:field="*{author}"/>
-                    </td>
-                    <td>
-                        <input type="text" placeholder="title" th:field="*{title}"/>
-                    </td>
-                    <td>
-                        <input type="text" placeholder="size" th:field="*{size}"/>
+                        <input type="text" placeholder="id" th:field="*{id}">
                     </td>
                     <td>
                         <input type="submit" value="remove">
+                    </td>
+                    <td th:if="${#fields.hasErrors()}">
+                        <p>Wrong id or not found</p>
+                    </td>
+                </tr>
+            </table>
+<!--            <div class="error" th:if="${deleteErrorMessage}" th:utext="${deleteErrorMessage}"/>-->
+        </form>
+
+        <form method="post" th:action="@{/books/removeByParameter}" th:object="${bookToRemove}">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="author" th:field="*{author}">
+                    </td>
+                    <td>
+                        <input type="text" placeholder="book_title" th:field="*{title}">
+                    </td>
+                    <td>
+                        <input type="text" placeholder="size (pages)" th:field="*{size}">
+                        <p class="error" th:if="${#fields.hasErrors('size')}">field value must be digit and less than 4 signs</p>
+                    </td>
+                    <td>
+                        <input type="submit" value="remove by parameter">
                     </td>
                 </tr>
             </table>
             <div class="error" th:if="${deleteErrorMessage}" th:utext="${deleteErrorMessage}"/>
         </form>
 
-        <form method="get" th:action="@{/books/filter}">
-            <select th:name="parameter">
-                <option value=1>Author</option>
-                <option value=2>Title</option>
-                <option value=3>Size</option>
-            </select>
-            <input type="text" placeholder="value" th:name="value"/>
-            <input type="submit" value="filter">
+        <form method="get" th:action="@{/books/filter}" th:object="${bookParameterToFilter}">
+            <table>
+                <tr>
+                    <td>
+                        <select th:field="*{parameter}">
+                            <option value=1>Author</option>
+                            <option value=2>Title</option>
+                            <option value=3>Size</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="value" th:field="*{value}"/>
+                    </td>
+                    <td>
+                        <input type="submit" value="filter">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <form method="post" th:action="@{/books/uploadFile}" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td>
+                        <input type="file" name="file">
+                    </td>
+                    <td>
+                        <input type="submit" value="Upload">
+                    </td>
+                </tr>
+            </table>
+            <div class="error" th:if="${uploadErrorMessage}" th:utext="${uploadErrorMessage}"/>
         </form>
 
         <table id="books">

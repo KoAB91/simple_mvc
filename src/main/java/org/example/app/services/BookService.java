@@ -1,7 +1,10 @@
 package org.example.app.services;
 
 
+import org.apache.log4j.Logger;
 import org.example.web.dto.Book;
+import org.example.web.dto.BookParameterToFilter;
+import org.example.web.dto.BookToRemove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +14,7 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepo;
+    private final Logger logger = Logger.getLogger(BookService.class);
 
     @Autowired
     public BookService(BookRepository bookRepo) {
@@ -29,11 +33,19 @@ public class BookService {
         return bookRepo.removeItemById(bookIdToRemove);
     }
 
-    public boolean removeBookByParameter(Book book) {
-        return bookRepo.removeItemByParameter(book);
+    public boolean removeBookByParameter(BookToRemove bookToRemove) {
+        return bookRepo.removeItemByParameter(bookToRemove);
     }
 
-    public List<Book> filterBooks(int parameter, String value){
-        return bookRepo.filter(parameter, value);
+    public List<Book> filterBooks(BookParameterToFilter bookParameterToFilter){
+        return bookRepo.filter(bookParameterToFilter);
+    }
+
+    private void defaultInit(){
+        logger.info("default INIT in book service bean");
+    }
+
+    private void defaultDestroy(){
+        logger.info("default DESTROY in book service bean");
     }
 }
